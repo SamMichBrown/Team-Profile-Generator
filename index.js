@@ -1,3 +1,4 @@
+const fs = require('fs');
 const inquirer = require('inquirer');
 const Engineer = require('./lib/Engineer');
 const Manager = require('./lib/Manager');
@@ -148,9 +149,14 @@ const addTeamMember = () => {
             console.log(manager)
             console.log(engineers)
             console.log(interns)
-           let pageData = generateData(manager, engineers, interns)
-           console.log(pageData)
-            //generateHtmlPage()
+            let pageData = generateData(manager, engineers, interns)
+            console.log(pageData)
+           
+            fs.writeFile('./dist/team.html', generateHtmlPage(pageData), err => {
+                if (err) throw new Error(err);
+                console.log('file written successfully');
+            });
+            
         } 
     })
 }
@@ -177,6 +183,90 @@ const init = () => {
         addTeamMember()
     })
 }
+
+{/* <div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div> */}
+
+const generateEngineersHtml = (engineers) => {
+    let template = ''
+    for (let e of engineers){
+        const card = `
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">${e.getName()}</h5>
+                <h5 class="card-subtitle mb-2 text-muted">${e.getRole()}</h5>
+                <p class="card-text">${e.getId()}</p>
+                <p class="card-text">${e.getEmail()}</p>
+                <a href="https://github.com/${e.getGithub()}" class="card-link">${e.getGithub()}</a>
+            </div>
+        </div>
+        `
+        template += card
+    }
+    return template
+}
+
+const generateInternsHtml = (interns) => {
+    let template = ''
+    for (let e of interns){
+        const card = `
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">${e.getName()}</h5>
+                <h5 class="card-subtitle mb-2 text-muted">${e.getRole()}</h5>
+                <p class="card-text">${e.getId()}</p>
+                <p class="card-text">${e.getEmail()}</p>
+                <p class="card-text">${e.getSchool()}</p>
+            </div>
+        </div>
+        `
+        template += card
+    }
+    return template
+}
+
+const generateHtmlPage = (data) => {
+    return `
+    <!DOCTYPE html> 
+    <html lang="en"> 
+        <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <title>Portfolio Demo</title>
+        </head>
+    
+        <body>
+
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">${data.manager.getName()}</h5>
+                    <h5 class="card-subtitle mb-2 text-muted">${data.manager.getRole()}</h5>
+                    <p class="card-text">${data.manager.getId()}</p>
+                    <p class="card-text">${data.manager.getEmail()}</p>
+                    <p class="card-text">${data.manager.getOfficeNumber()}</p>
+                </div>
+            </div>
+            <div>
+                ${generateEngineersHtml(data.engineers)}
+            </div>
+            <div>
+                ${generateInternsHtml(data.interns)}
+            </div>
+        </body>
+    </html>
+    `
+  };
+
 
 init()
 
