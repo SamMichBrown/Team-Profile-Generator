@@ -1,3 +1,4 @@
+// Require statments
 const fs = require('fs');
 const inquirer = require('inquirer');
 const Engineer = require('./lib/Engineer');
@@ -162,7 +163,7 @@ const addTeamMember = () => {
 }
 
 
-
+// Inquirer Prompts
 const askEngineerQuestions = () => {
     return inquirer.prompt(engineerQuestions)
     .then(engineerAnswers => {
@@ -186,7 +187,7 @@ const init = () => {
     })
 }
 
-
+// Generate Engineer Html
 const generateEngineersHtml = (engineers) => {
     let template = ''
     for (let e of engineers){
@@ -194,12 +195,12 @@ const generateEngineersHtml = (engineers) => {
         <div class="card mb-3" style="width: 18rem;">
             <div class="card-header">
                 <h5 class="card-title">${e.getName()}</h5>
-                <h5 class="card-subtitle mb-2 text-muted">${e.getRole()}</h5>
+                <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-glasses" style="color:#0004ff;"></i> ${e.getRole()}</h5>
             </div>
             <div class="card-body">
                 <p class="card-text">Id: ${e.getId()}</p>
-                <p class="card-text"><a href="mailto:${e.getEmail()}">Email: ${e.getEmail()}</a></p>
-                <a href="https://github.com/${e.getGithub()}" class="card-link">Github: ${e.getGithub()}</a>
+                <p class="card-text">Email: <a href="mailto:${e.getEmail()}">${e.getEmail()}</a></p>
+                <p class="card-text">Github: <a href="https://github.com/${e.getGithub()}" target="_blank" class="card-link">${e.getGithub()}</a></p>
             </div>
         </div>
         `
@@ -207,7 +208,7 @@ const generateEngineersHtml = (engineers) => {
     }
     return template
 }
-
+// Generate Intern Html
 const generateInternsHtml = (interns) => {
     let template = ''
     for (let e of interns){
@@ -215,11 +216,11 @@ const generateInternsHtml = (interns) => {
         <div class="card mb-3" style="width: 18rem;">
             <div class="card-header">
                 <h5 class="card-title">${e.getName()}</h5>
-                <h5 class="card-subtitle mb-2 text-muted">${e.getRole()}</h5>
+                <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-user-graduate" style="color:#0004ff;"></i> ${e.getRole()}</h5>
             </div>
             <div class="card-body">
                 <p class="card-text">Id: ${e.getId()}</p>
-                <p class="card-text"><a href="mailto:${e.getEmail()}">Email: ${e.getEmail()}</a></p>
+                <p class="card-text">Email: <a href="mailto:${e.getEmail()}">${e.getEmail()}</a></p>
                 <p class="card-text">School: ${e.getSchool()}</p>
             </div>
         </div>
@@ -228,7 +229,7 @@ const generateInternsHtml = (interns) => {
     }
     return template
 }
-
+// Genearte manager/Html Template
 const generateHtmlPage = (data) => {
     return `
     <!DOCTYPE html> 
@@ -239,30 +240,32 @@ const generateHtmlPage = (data) => {
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <!-- CSS only -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-        <title>Portfolio Demo</title>
+        <link
+        rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+        crossorigin="anonymous"/>
+        <link rel="stylesheet" href="styles.css">
+        <title>Team Portfolio Generator</title>
         </head>
     
         <body>
-            <header class="bg-danger"><h1 class="text-center">My Team<h1></header>
-
+            <header class="bg-danger"><h1 class="text-center text-white">My Team<h1></header>
             <section class="container">
             <div class="card mb-3" style="width: 18rem;">
                 <div class="card-header">
                     <h5 class="card-title" class="col-4">${data.manager.getName()}</h5>
-                    <h5 class="card-subtitle mb-2 text-muted">${data.manager.getRole()}</h5>
+                    <h5 class="card-subtitle mb-2 text-muted"><i class="fas fa-mug-hot" style="color:#0004ff;"></i> ${data.manager.getRole()}</h5>
                 </div>
                 <div class="card-body">
                     <p class="card-text">Id: ${data.manager.getId()}</p>
-                    <p class="card-text"><a href="mailto:${data.manager.getEmail()}">Email: ${data.manager.getEmail()}</a></p>
+                    <p class="card-text">Email: <a href="mailto:${data.manager.getEmail()}">${data.manager.getEmail()}</a></p>
                     <p class="card-text">Office Number: ${data.manager.getOfficeNumber()}</p>
                 </div>
-                <div>
-                ${generateEngineersHtml(data.engineers)}
-                </div>
-                <div>
-                ${generateInternsHtml(data.interns)}
-                </div>
             </div>
+                ${generateEngineersHtml(data.engineers)}
+            
+                ${generateInternsHtml(data.interns)}
             </section>
             </body>
     </html>
