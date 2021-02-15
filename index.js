@@ -18,26 +18,26 @@ const managerQuestions = [
         name: 'id',
         message: "What is the team manager's id?",  
         validate: (input) => {
-            const regEx = /^[0-9]*$/
-            return regEx.test(input) ? regEx.test(input): 'Please enter only numbers!'
-        }
+             const regEx = /^[0-9]*$/
+             return regEx.test(input) ? regEx.test(input): 'Please enter only numbers!'
+         }
     },
     {
         type: 'input',
         name: 'email',
         message: "What is the team manager's email?",
         validate: (input) => {
-            const regEx = /\S+@\S+\.\S+/
-            return regEx.test(input) ? regEx.test(input): 'Please enter a valid email adress!'
-        }
+             const regEx = /\S+@\S+\.\S+/
+             return regEx.test(input) ? regEx.test(input): 'Please enter a valid email adress!'
+         }
     },
     {
         type: 'input',
         name: 'number',
         message: "What is the team manager's office number?",
         validate: (input) => {
-            const regEx = /^[0-9]*$/
-            return regEx.test(input) ? regEx.test(input): 'Please enter only numbers!'
+             const regEx = /^[0-9]*$/
+             return regEx.test(input) ? regEx.test(input): 'Please enter only numbers!'
         }
     },
     
@@ -56,18 +56,18 @@ const engineerQuestions = [
         name: 'id',
         message: "What is the engineer's id?",
         validate: (input) => {
-            const regEx = /^[0-9]*$/
-            return regEx.test(input) ? regEx.test(input): 'Please enter only numbers!'
-        }
+             const regEx = /^[0-9]*$/
+             return regEx.test(input) ? regEx.test(input): 'Please enter only numbers!'
+         }
     },
     {
         type: 'input',
         name: 'email',
         message: "What is the engineer's email?",
         validate: (input) => {
-            const regEx = /\S+@\S+\.\S+/
-            return regEx.test(input) ? regEx.test(input): 'Please enter a valid email adress!'
-        }
+             const regEx = /\S+@\S+\.\S+/
+             return regEx.test(input) ? regEx.test(input): 'Please enter a valid email adress!'
+         }
     },
     {
         type: 'input',
@@ -88,18 +88,18 @@ const internQuestions = [
         name: 'id',
         message: "What is the intern's id?",
         validate: (input) => {
-            const regEx = /^[0-9]*$/
-            return regEx.test(input) ? regEx.test(input): 'Please enter only numbers!'
-        }
+             const regEx = /^[0-9]*$/
+             return regEx.test(input) ? regEx.test(input): 'Please enter only numbers!'
+         }
     },
     {
         type: 'input',
         name: 'email',
         message: "What is the intern's email?",
         validate: (input) => {
-            const regEx = /\S+@\S+\.\S+/
+             const regEx = /\S+@\S+\.\S+/
             return regEx.test(input) ? regEx.test(input): 'Please enter a valid email adress!'
-        }
+         }
     },
     {
         type: 'input',
@@ -161,6 +161,8 @@ const addTeamMember = () => {
     })
 }
 
+
+
 const askEngineerQuestions = () => {
     return inquirer.prompt(engineerQuestions)
     .then(engineerAnswers => {
@@ -184,27 +186,20 @@ const init = () => {
     })
 }
 
-{/* <div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
-</div> */}
 
 const generateEngineersHtml = (engineers) => {
     let template = ''
     for (let e of engineers){
         const card = `
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
+        <div class="card mb-3" style="width: 18rem;">
+            <div class="card-header">
                 <h5 class="card-title">${e.getName()}</h5>
                 <h5 class="card-subtitle mb-2 text-muted">${e.getRole()}</h5>
-                <p class="card-text">${e.getId()}</p>
-                <p class="card-text">${e.getEmail()}</p>
-                <a href="https://github.com/${e.getGithub()}" class="card-link">${e.getGithub()}</a>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Id: ${e.getId()}</p>
+                <p class="card-text"><a href="mailto:${e.getEmail()}">Email: ${e.getEmail()}</a></p>
+                <a href="https://github.com/${e.getGithub()}" class="card-link">Github: ${e.getGithub()}</a>
             </div>
         </div>
         `
@@ -217,13 +212,15 @@ const generateInternsHtml = (interns) => {
     let template = ''
     for (let e of interns){
         const card = `
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
+        <div class="card mb-3" style="width: 18rem;">
+            <div class="card-header">
                 <h5 class="card-title">${e.getName()}</h5>
                 <h5 class="card-subtitle mb-2 text-muted">${e.getRole()}</h5>
-                <p class="card-text">${e.getId()}</p>
-                <p class="card-text">${e.getEmail()}</p>
-                <p class="card-text">${e.getSchool()}</p>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Id: ${e.getId()}</p>
+                <p class="card-text"><a href="mailto:${e.getEmail()}">Email: ${e.getEmail()}</a></p>
+                <p class="card-text">School: ${e.getSchool()}</p>
             </div>
         </div>
         `
@@ -246,23 +243,28 @@ const generateHtmlPage = (data) => {
         </head>
     
         <body>
+            <header class="bg-danger"><h1 class="text-center">My Team<h1></header>
 
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">${data.manager.getName()}</h5>
+            <section class="container">
+            <div class="card mb-3" style="width: 18rem;">
+                <div class="card-header">
+                    <h5 class="card-title" class="col-4">${data.manager.getName()}</h5>
                     <h5 class="card-subtitle mb-2 text-muted">${data.manager.getRole()}</h5>
-                    <p class="card-text">${data.manager.getId()}</p>
-                    <p class="card-text">${data.manager.getEmail()}</p>
-                    <p class="card-text">${data.manager.getOfficeNumber()}</p>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Id: ${data.manager.getId()}</p>
+                    <p class="card-text"><a href="mailto:${data.manager.getEmail()}">Email: ${data.manager.getEmail()}</a></p>
+                    <p class="card-text">Office Number: ${data.manager.getOfficeNumber()}</p>
+                </div>
+                <div>
+                ${generateEngineersHtml(data.engineers)}
+                </div>
+                <div>
+                ${generateInternsHtml(data.interns)}
                 </div>
             </div>
-            <div>
-                ${generateEngineersHtml(data.engineers)}
-            </div>
-            <div>
-                ${generateInternsHtml(data.interns)}
-            </div>
-        </body>
+            </section>
+            </body>
     </html>
     `
   };
