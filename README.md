@@ -24,7 +24,7 @@ https://drive.google.com/file/d/16qZ8lain9yEF52FQLTtIg-dhAH6Eo_-l/view
 - NPM
 
 ## Website
-
+ https://sammichbrown.github.io/Team-Profile-Generator/
 
 ### Contribution
 Made by Samantha Brown
